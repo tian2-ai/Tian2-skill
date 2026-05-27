@@ -1,0 +1,84 @@
+# Example content schema for the poster builder.
+# Edit this file, then run:
+#   python3 ~/.claude/skills/isef-poster-designer/templates/build_pptx.py \
+#       --content <this-file> --size A0 --out my-poster.pptx
+
+project:
+  title: "Origami Configurations as Statistical Ensembles: A Free-Energy Analysis"
+  authors: "Hikaru Kuribayashi"
+  affiliation: "Stuyvesant High School, New York, NY"
+  category: "PHYS — Physics and Astronomy"
+  subcategory: "Theoretical, Computational and Quantum Physics"
+  project_id: "PHYS021"
+  year: 2026
+
+abstract: |
+  Origami crease patterns admit many physical configurations of the folded sheet.
+  We recast this configurational ensemble as a statistical-mechanics partition
+  function and use Markov-chain Monte Carlo (MCMC) to sample states. The
+  Metropolis sampler reproduces known closed-form distributions for 2-fold
+  linkages (validation set), then extends to multi-fold patterns without
+  closed-form solutions. We find a discrete-to-continuous phase transition at
+  fold density ρ ≈ 0.4 that has not been previously reported in the origami
+  literature. Code and data are open-source.
+
+sections:
+  - heading: "Background"
+    body: |
+      Origami's mathematics has been studied for foldability and rigidity, but the
+      space of accessible folded states has rarely been treated as a probabilistic
+      ensemble. Statistical mechanics provides ready tools: partition functions,
+      free energies, phase transitions. We apply this framework to crease patterns.
+
+  - heading: "Methods"
+    body: |
+      We treat each fold as a continuous angle in [0, π]. The Hamiltonian H(θ) is
+      the total bending energy plus crease constraint penalties. MCMC sampling uses
+      the Metropolis-Hastings algorithm with adaptive step size. Validation: 2-fold
+      linkages where closed-form distributions are known.
+
+  - heading: "Validation"
+    figure: "figures/validation-2fold.png"
+    caption: "Sampled distribution (orange) matches closed-form (blue) for 2-fold linkage."
+
+  - heading: "Phase Transition"
+    figure: "figures/phase-transition.png"
+    caption: "Free energy as a function of fold density. Discontinuity at ρ ≈ 0.4."
+
+  - heading: "Discussion"
+    body: |
+      The discrete-to-continuous transition arises from the topology of the
+      configuration space. Below ρ_c, only a few discrete fold patterns are
+      accessible; above ρ_c, a continuum opens up. This may relate to the
+      crystalline→amorphous transition in folded polymer self-assembly.
+
+  - heading: "Conclusion"
+    body: |
+      Origami's configurational ensemble has rich statistical-mechanics structure.
+      The phase transition at ρ ≈ 0.4 is, to our knowledge, novel. Future work
+      will examine 3D fold patterns and connection to protein folding analogs.
+
+references:
+  - "Demaine, E. & O'Rourke, J. (2007). Geometric Folding Algorithms. Cambridge UP."
+  - "Tachi, T. (2010). Origami simulator. PRSA 466."
+  - "Newman, M. & Barkema, G. (1999). Monte Carlo Methods in Statistical Physics. OUP."
+  - "Lechenault, F. et al. (2014). Mechanical Response of a Creased Sheet. PRL 112."
+  - "Silverberg, J. et al. (2014). Using Origami Design Principles. Science 345."
+
+acknowledgments: |
+  Thanks to my advisor Dr. R. Smith for early feedback. MCMC code is original;
+  validation against Demaine et al. closed forms confirms correctness.
+
+ai_use_disclosure: |
+  AI assistance: Claude was used for code review on the sampler and for
+  manuscript draft polishing. Methodology design, theoretical framing,
+  experiments, and interpretation are my own work.
+
+qr_url: "https://github.com/example/origami-mcmc"
+
+theme:
+  primary_color: "#0B3D91"     # navy
+  accent_color: "#FFA500"      # orange
+  background_color: "#FFFFFF"
+  body_font: "Helvetica"
+  heading_font: "Helvetica-Bold"

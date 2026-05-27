@@ -1,0 +1,172 @@
+% ISEF Poster — LaTeX template using tikzposter
+% Build: xelatex isef-poster-template.tex
+% (xelatex preferred for Unicode/Chinese; pdflatex also works for English-only)
+%
+% Adjust paper size in the \documentclass line:
+%   [a0paper,portrait] for A0 portrait (841×1189mm) — DEFAULT
+%   [a0paper,landscape] for A0 landscape (1189×841mm)
+%   Custom: use \setlength{\paperwidth}{914mm}\setlength{\paperheight}{1219mm} for 36"×48"
+%
+% Fits ISEF booth (122×165cm practical max) as long as you stay ≤A0 portrait or 48×36" landscape.
+
+\documentclass[a0paper,portrait,18pt]{tikzposter}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % cleaner fonts
+\usepackage{xeCJK}          % comment out if not using CJK
+\setCJKmainfont{PingFang SC}[AutoFakeBold=true]
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{qrcode}
+\usepackage{xcolor}
+
+% --- ISEF color theme (navy + orange accent; meets WCAG 4.5:1 on white) ---
+\definecolor{isefNavy}{HTML}{0B3D91}
+\definecolor{isefOrange}{HTML}{FFA500}
+\definecolor{isefGray}{HTML}{4A4A4A}
+
+% Title formatting — large title, readable from 3m
+\settitle{
+  \centering
+  \color{white}{\fontsize{100pt}{120pt}\selectfont\textbf{\@title}}\\[1cm]
+  \color{white}{\fontsize{36pt}{42pt}\selectfont \@author}\\[0.3cm]
+  \color{white}{\fontsize{28pt}{32pt}\selectfont \textit{\institute}}
+}
+
+% Apply theme
+\definecolorpalette{ISEF}{
+  \definecolor{colorOne}{named}{isefNavy}
+  \definecolor{colorTwo}{named}{isefOrange}
+  \definecolor{colorThree}{named}{white}
+}
+\usecolorpalette{ISEF}
+\usetheme{Default}
+\useblockstyle{Default}
+
+% --- Project metadata ---
+\title{Origami Configurations as Statistical Ensembles: A Free-Energy Analysis}
+\author{Hikaru Kuribayashi}
+\institute{Stuyvesant High School • PHYS — Physics and Astronomy • PHYS021}
+
+\begin{document}
+
+\maketitle[width=0.96\textwidth]
+
+% ---- Top row: abstract + significance ----
+\begin{columns}
+  \column{0.65}
+  \block{Abstract}{
+    \fontsize{24pt}{30pt}\selectfont
+    Origami crease patterns admit many physical configurations of the folded sheet.
+    We recast this configurational ensemble as a statistical-mechanics partition
+    function and use Markov-chain Monte Carlo (MCMC) to sample states. The
+    Metropolis sampler reproduces known closed-form distributions for 2-fold
+    linkages (validation set), then extends to multi-fold patterns without
+    closed-form solutions. We find a discrete-to-continuous phase transition at
+    fold density $\rho \approx 0.4$ that has not been previously reported in
+    the origami literature.
+  }
+  \column{0.35}
+  \block{Significance}{
+    \fontsize{24pt}{30pt}\selectfont
+    This work imports statistical mechanics into origami, opening connections
+    to crystallization theory, polymer self-assembly, and protein folding.
+    Code and data are open-source.
+
+    \vspace{0.5cm}
+    \centering
+    \qrcode[height=4cm]{https://github.com/example/origami-mcmc}\\
+    \vspace{0.2cm}
+    {\fontsize{20pt}{24pt}\selectfont \textit{Code + data}}
+  }
+\end{columns}
+
+% ---- Three-column body ----
+\begin{columns}
+  \column{0.33}
+  \block{Background}{
+    \fontsize{22pt}{28pt}\selectfont
+    Origami's mathematics has been studied for foldability (Demaine 2007) and
+    rigidity, but the space of accessible folded states has rarely been treated
+    as a probabilistic ensemble. Statistical mechanics provides ready tools:
+    partition functions, free energies, phase transitions.
+  }
+  \block{Methods}{
+    \fontsize{22pt}{28pt}\selectfont
+    Each fold = continuous angle $\theta_i \in [0,\pi]$.
+    Hamiltonian $H(\boldsymbol{\theta}) = \sum_i \kappa_i \theta_i^2 + V_\text{constraint}$
+    where $V_\text{constraint}$ penalizes infeasible folds (self-intersection,
+    crease violations).
+
+    \vspace{0.3cm}
+    MCMC: Metropolis-Hastings with adaptive step size; 10$^6$ samples after
+    burn-in of 10$^4$; thinning at $\tau \approx 50$.
+  }
+
+  \column{0.34}
+  \block{Validation: 2-fold linkage}{
+    \fontsize{22pt}{28pt}\selectfont
+    \centering
+    \fbox{\parbox{0.95\linewidth}{\centering\textit{[Place \texttt{figures/validation-2fold.png} here]}}}\\
+    \vspace{0.3cm}
+    Sampled distribution (orange) matches the closed-form distribution (blue)
+    derived from Lechenault et al.\ (2014).
+  }
+  \block{Phase transition at $\rho \approx 0.4$}{
+    \fontsize{22pt}{28pt}\selectfont
+    \centering
+    \fbox{\parbox{0.95\linewidth}{\centering\textit{[Place \texttt{figures/phase-transition.png} here]}}}\\
+    \vspace{0.3cm}
+    Free energy as a function of fold density. Discontinuity at
+    $\rho_c \approx 0.4$ corresponds to topological reorganization of the
+    configuration space.
+  }
+
+  \column{0.33}
+  \block{Discussion}{
+    \fontsize{22pt}{28pt}\selectfont
+    The discrete-to-continuous transition arises from the topology of the
+    configuration space. Below $\rho_c$ only discrete fold patterns are
+    accessible; above $\rho_c$ a continuum opens up. This may relate to the
+    crystalline$\rightarrow$amorphous transition in folded polymer self-assembly.
+  }
+  \block{Future work}{
+    \fontsize{22pt}{28pt}\selectfont
+    \begin{itemize}\setlength\itemsep{0.3em}
+      \item 3D fold patterns (current work is 2D-flat)
+      \item Connection to protein-folding energy landscapes
+      \item Experimental validation via micro-origami
+    \end{itemize}
+  }
+\end{columns}
+
+% ---- Footer ----
+\block{References \& Acknowledgments}{
+  \fontsize{16pt}{20pt}\selectfont
+  \begin{minipage}[t]{0.55\linewidth}
+  \textbf{References}
+  \begin{enumerate}\setlength\itemsep{0.1em}
+    \item Demaine, E. \& O'Rourke, J. (2007). \textit{Geometric Folding Algorithms}. Cambridge UP.
+    \item Tachi, T. (2010). Origami simulator. \textit{PRSA} 466.
+    \item Newman, M. \& Barkema, G. (1999). \textit{Monte Carlo Methods in Statistical Physics}. OUP.
+    \item Lechenault, F.\ et al.\ (2014). Mechanical response of a creased sheet. \textit{PRL} 112.
+    \item Silverberg, J.\ et al.\ (2014). Using origami design principles. \textit{Science} 345.
+  \end{enumerate}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.40\linewidth}
+  \textbf{Acknowledgments}\\
+  Thanks to my advisor Dr.\ R.\ Smith for early feedback. MCMC code is original;
+  validation against Demaine et al.\ closed forms confirms correctness.
+
+  \vspace{0.3cm}
+  \textbf{ISEF 2026 AI-use disclosure:}
+  Claude assisted with code review and manuscript polish. Methodology design,
+  theoretical framing, experiments, and interpretation are my own work.
+  \end{minipage}
+}
+
+\end{document}
